@@ -15,6 +15,22 @@ class Rectangle{
 		this.position = new Coordonnee;
 		this.taille = new Coordonnee(largeur,hauteur);
 	}
+	
+	getGauche(){
+		return this.position.x - this.taille.x / 2;
+	}	
+
+	getDroite(){
+		return this.position.x + this.taille.x / 2;
+	}	
+
+	getHaut(){
+		return this.position.y - this.taille.y / 2;
+	}	
+
+	getBas(){
+		return this.position.y + this.taille.y / 2;
+	}	
 }
 	
 class Balle extends Rectangle{
@@ -22,7 +38,6 @@ class Balle extends Rectangle{
 		super(20,20);
 		this.vitesse = new Coordonnee;
 	}
-	
 }
 	
 
@@ -60,11 +75,11 @@ function animerBalle(temps){
 	balleGame.position.y += balleGame.vitesse.y * temps; // balle va en bas
 	
 	// COLISION
-	if(balleGame.position.x < 0 || balleGame.position.x > canvas.width){
+	if(balleGame.getGauche() < 0 || balleGame.getDroite() > canvas.width){
 		balleGame.vitesse.x = -balleGame.vitesse.x;
 	}
 	
-	if(balleGame.position.y < 0 || balleGame.position.y > canvas.height){
+	if(balleGame.getHaut() < 0 || balleGame.getBas() > canvas.height){
 		balleGame.vitesse.y = -balleGame.vitesse.y;
 	}
 	
