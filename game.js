@@ -40,6 +40,17 @@ class Balle extends Rectangle{
 	}
 }
 
+// Creation des joueurs
+
+class Joueur extends Rectangle{
+	constructor(){
+		super(23,100);
+		this.score = 0;
+		
+	}
+}
+
+
 class Game {
 	constructor(canvas){
 		this.canvas = canvas;
@@ -58,6 +69,14 @@ class Game {
 		this.balleGame.vitesse.x = 100;
 		this.balleGame.vitesse.y = 100;
 		
+		
+		this.joueurs = [new Joueur, new Joueur];
+		this.joueurs[0].position.x = 40;
+		this.joueurs[1].position.x = this.canvas.width-40;
+		this.joueurs.forEach(joueur => {
+			joueur.position.y = this.canvas.height/2;
+		});
+		
 		let ancienPosition;
 
 		const rappeler = (milliseconde) => {
@@ -70,18 +89,26 @@ class Game {
 		rappeler();
 	}
 	
+	colisionPaddle_Balle(joueur, balle){
+		if(joueur.getGauche() < balle.getDroite() && joueur.getDroite() > balle.getGauche()
+			&& joueur.getHaut() < balle.getBas() && joueur.getBas() > balle.getHaut()){
+				balle.vitesse.x = -balle.vitesse.x;
+			}
+	}
+	
 	dessinerTerrain(){
 		// mise en place du terrain de jeu
 		this.context.fillStyle = '#33919E';
 		this.context.fillRect(0,0,this.canvas.width,this.canvas.height);
 
-		this.dessinerBalle(this.balleGame);
+		this.dessinerRectangle(this.balleGame);
+		this.joueurs.forEach(joueur => this.dessinerRectangle(joueur));
 	}
 	
-	dessinerBalle(laBalle){
+	dessinerRectangle(laBalle){
 		// creation de la balle
 		this.context.fillStyle = '#e50000';
-		this.context.fillRect(laBalle.position.x,laBalle.position.y,laBalle.taille.x,laBalle.taille.y);
+		this.context.fillRect(laBalle.getGauche(),laBalle.getHaut(),laBalle.taille.x,laBalle.taille.y);
 	
 	}
 	
@@ -100,6 +127,12 @@ class Game {
 		this.balleGame.vitesse.y = -this.balleGame.vitesse.y;
 	}
 	
+	
+	// le joueur 2 est l'ordinateur, ici la raquette de l'rodi suit la balle
+	this.joueurs[1].position.y = this.balleGame.position.y;
+	
+	this.joueurs.forEach(joueur => this.colisionPaddle_Balle(joueur,this.balleGame));
+	
 	this.dessinerTerrain();
 	
 }
@@ -108,6 +141,10 @@ class Game {
 
 const canvas  = document.getElementById("gameCanvas"); // acces au canvas
 const leJeu = new Game(canvas);
+
+canvas.addEventListener('mousemove', event => {
+	leJeu.joueurs[0].position.y = event.offsetY;
+})
 
 
 
