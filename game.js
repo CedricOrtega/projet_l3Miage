@@ -70,6 +70,21 @@ class Game {
 		rappeler();
 	}
 	
+	dessinerTerrain(){
+		// mise en place du terrain de jeu
+		this.context.fillStyle = '#33919E';
+		this.context.fillRect(0,0,this.canvas.width,this.canvas.height);
+
+		this.dessinerBalle(this.balleGame);
+	}
+	
+	dessinerBalle(laBalle){
+		// creation de la balle
+		this.context.fillStyle = '#e50000';
+		this.context.fillRect(laBalle.position.x,laBalle.position.y,laBalle.taille.x,laBalle.taille.y);
+	
+	}
+	
 	// ANIMATION DE LA Balle
 	// modifier la position de la balle en fonction du temps
 	animerBalle(temps){
@@ -85,16 +100,9 @@ class Game {
 		this.balleGame.vitesse.y = -this.balleGame.vitesse.y;
 	}
 	
-	// mise en place du terrain de jeu
-	this.context.fillStyle = '#33919E';
-	this.context.fillRect(0,0,this.canvas.width,this.canvas.height);
-
-	// creation de la balle
-	this.context.fillStyle = '#e50000';
-	this.context.fillRect(this.balleGame.position.x,this.balleGame.position.y,this.balleGame.taille.x,this.balleGame.taille.y);
+	this.dessinerTerrain();
 	
-	}
-	
+}
 }
 	
 
