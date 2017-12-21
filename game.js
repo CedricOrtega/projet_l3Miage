@@ -39,60 +39,68 @@ class Balle extends Rectangle{
 		this.vitesse = new Coordonnee;
 	}
 }
-	
 
-const canvas  = document.getElementById("gameCanvas"); // acces au canvas
-const context = canvas.getContext("2d"); // contexte en 2d
+class Game {
+	constructor(canvas){
+		this.canvas = canvas;
+		this.context = canvas.getContext("2d"); // contexte en 2d
+		
+		this.balleGame = new Balle();
+		console.log(this.balleGame); // balleGame est bien un objet heritant de rectangle
 
-const balleGame = new Balle;
-console.log(balleGame); // balleGame est bien un objet heritant de rectangle
+		// mettre la balle au millieu de terrain
 
-// mettre la balle au millieu de terrain
+		this.balleGame.position.x = (this.canvas.width/2);
+		this.balleGame.position.y = (this.canvas.height/2);
 
-balleGame.position.x = (canvas.width/2);
-balleGame.position.y = (canvas.height/2);
+		// vitesse de la balle 
 
-// vitesse de la balle 
+		this.balleGame.vitesse.x = 100;
+		this.balleGame.vitesse.y = 100;
+		
+		let ancienPosition;
 
-balleGame.vitesse.x = 100;
-balleGame.vitesse.y = 100;
-
-let ancienPosition;
-
-function rappeler(milliseconde){
-	if(ancienPosition){
-		animerBalle((milliseconde-ancienPosition)/1000)
+		const rappeler = (milliseconde) => {
+			if(ancienPosition){
+				this.animerBalle((milliseconde-ancienPosition)/1000)
+			}
+			ancienPosition = milliseconde;
+			requestAnimationFrame(rappeler);
+		};
+		rappeler();
 	}
-	ancienPosition = milliseconde;
-	requestAnimationFrame(rappeler);
-}
-
-
-// ANIMATION DE LA Balle
-// modifier la position de la balle en fonction du temps
-function animerBalle(temps){
-	balleGame.position.x += balleGame.vitesse.x * temps; // balle va a droite
-	balleGame.position.y += balleGame.vitesse.y * temps; // balle va en bas
+	
+	// ANIMATION DE LA Balle
+	// modifier la position de la balle en fonction du temps
+	animerBalle(temps){
+	this.balleGame.position.x += this.balleGame.vitesse.x * temps; // balle va a droite
+	this.balleGame.position.y += this.balleGame.vitesse.y * temps; // balle va en bas
 	
 	// COLISION
-	if(balleGame.getGauche() < 0 || balleGame.getDroite() > canvas.width){
-		balleGame.vitesse.x = -balleGame.vitesse.x;
+	if(this.balleGame.getGauche() < 0 || this.balleGame.getDroite() > this.canvas.width){
+		this.balleGame.vitesse.x = -this.balleGame.vitesse.x;
 	}
 	
-	if(balleGame.getHaut() < 0 || balleGame.getBas() > canvas.height){
-		balleGame.vitesse.y = -balleGame.vitesse.y;
+	if(this.balleGame.getHaut() < 0 || this.balleGame.getBas() > this.canvas.height){
+		this.balleGame.vitesse.y = -this.balleGame.vitesse.y;
 	}
 	
 	// mise en place du terrain de jeu
-	context.fillStyle = '#33919E';
-	context.fillRect(0,0,canvas.width,canvas.height);
+	this.context.fillStyle = '#33919E';
+	this.context.fillRect(0,0,this.canvas.width,this.canvas.height);
 
 	// creation de la balle
-	context.fillStyle = '#e50000';
-	context.fillRect(balleGame.position.x,balleGame.position.y,balleGame.taille.x,balleGame.taille.y);
+	this.context.fillStyle = '#e50000';
+	this.context.fillRect(this.balleGame.position.x,this.balleGame.position.y,this.balleGame.taille.x,this.balleGame.taille.y);
+	
+	}
 	
 }
+	
 
-rappeler();
+const canvas  = document.getElementById("gameCanvas"); // acces au canvas
+const leJeu = new Game(canvas);
+
+
 
 
