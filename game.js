@@ -59,6 +59,15 @@ function animerBalle(temps){
 	balleGame.position.x += balleGame.vitesse.x * temps; // balle va a droite
 	balleGame.position.y += balleGame.vitesse.y * temps; // balle va en bas
 	
+	// COLISION
+	if(balleGame.position.x < 0 || balleGame.position.x > canvas.width){
+		balleGame.vitesse.x = -balleGame.vitesse.x;
+	}
+	
+	if(balleGame.position.y < 0 || balleGame.position.y > canvas.height){
+		balleGame.vitesse.y = -balleGame.vitesse.y;
+	}
+	
 	// mise en place du terrain de jeu
 	context.fillStyle = '#33919E';
 	context.fillRect(0,0,canvas.width,canvas.height);
