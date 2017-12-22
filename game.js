@@ -148,11 +148,13 @@ class Game {
 	//fonction pour demarrer jeu
 	// URGENT A FAIRE DIFFICULTE JEU BONUS POSSIBLE POUR INPUT
 	demarrerGame(){
-		this.balleGame.vitesse.x = 100;
-		this.balleGame.vitesse.y = 100;
+		this.balleGame.vitesse.x = 100*difficulte;
+		this.balleGame.vitesse.y = 100*difficulte;
 		
-		this.balleGame.vitesse.obtenirVitesseProgressive = 200;
+		//this.balleGame.vitesse.obtenirVitesseProgressive = 200;
 	}
+	
+
 	
 	// fonction apres score marque mettre balle au milieu et paddle
 	reset(){
@@ -208,7 +210,13 @@ const canvas  = document.getElementById("gameCanvas"); // acces au canvas
 const leJeu = new Game(canvas);
 const soundRaquette = new Audio("Pouloulou.mp3");
 const soundGoal = new Audio("goalaso.mp3");
+let difficulte = 3;
 
+	function changerDifficulte(laDifficulte) {
+
+    difficulte = laDifficulte;
+
+	}
 
 canvas.addEventListener('mousemove', event => {
 	const scale = event.offsetY / event.target.getBoundingClientRect().height;
