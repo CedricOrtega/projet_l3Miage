@@ -6,6 +6,16 @@ class Coordonnee{
 		this.x = x;
 		this.y = y;
 	}
+	
+	get vitesseProgressive(){
+		return Math.sqrt(this.x*this.x+this.y*this.y);
+	}
+	
+	set vitesseProgressive(leCoeff){
+		const coeff = leCoeff / this.vitesseProgressive;
+		this.x *= coeff;
+		this.y *= coeff;
+	}
 }
 
 // on va créer plein de rectangle du coup on va créer une classe rectangle pour avoir une bonne structure
@@ -58,18 +68,7 @@ class Game {
 		
 		this.balleGame = new Balle();
 		console.log(this.balleGame); // balleGame est bien un objet heritant de rectangle
-
-		// mettre la balle au millieu de terrain
-
-		this.balleGame.position.x = (this.canvas.width/2);
-		this.balleGame.position.y = (this.canvas.height/2);
-
-		// vitesse de la balle 
-
-		this.balleGame.vitesse.x = 100;
-		this.balleGame.vitesse.y = 100;
-		
-		
+				
 		this.joueurs = [new Joueur, new Joueur];
 		this.joueurs[0].position.x = 40;
 		this.joueurs[1].position.x = this.canvas.width-40;
@@ -87,12 +86,17 @@ class Game {
 			requestAnimationFrame(rappeler);
 		};
 		rappeler();
+		
+		// mettre balle milieu terrain la 1ere fois
+		this.reset();
 	}
 	
 	colisionPaddle_Balle(joueur, balle){
 		if(joueur.getGauche() < balle.getDroite() && joueur.getDroite() > balle.getGauche()
 			&& joueur.getHaut() < balle.getBas() && joueur.getBas() > balle.getHaut()){
 				balle.vitesse.x = -balle.vitesse.x;
+				// Ici est géré la vitesse du jeu
+				balle.vitesse.vitesseProgressive *= 1.05;
 			}
 	}
 	
@@ -112,6 +116,29 @@ class Game {
 	
 	}
 	
+	//fonction pour demarrer jeu
+	// URGENT A FAIRE DIFFICULTE JEU BONUS POSSIBLE POUR INPUT
+	demarrerGame(){
+		this.balleGame.vitesse.x = 100;
+		this.balleGame.vitesse.y = 100;
+		
+		this.balleGame.vitesse.obtenirVitesseProgressive = 200;
+	}
+	
+	// fonction apres score marque mettre balle au milieu et paddle
+	reset(){
+		// mettre la balle au millieu de terrain
+
+		this.balleGame.position.x = (this.canvas.width/2);
+		this.balleGame.position.y = (this.canvas.height/2);
+
+		// vitesse de la balle 
+
+		this.balleGame.vitesse.x = 0;
+		this.balleGame.vitesse.y = 0;
+	}
+	
+	
 	// ANIMATION DE LA Balle
 	// modifier la position de la balle en fonction du temps
 	animerBalle(temps){
@@ -120,7 +147,12 @@ class Game {
 	
 	// COLISION
 	if(this.balleGame.getGauche() < 0 || this.balleGame.getDroite() > this.canvas.width){
-		this.balleGame.vitesse.x = -this.balleGame.vitesse.x;
+		// on cible le joueur qui a marque 1 point
+		const joueurCible = this.balleGame.vitesse.x < 0 | 0;
+		// on lui rajoute 1 point
+		this.joueurs[joueurCible].score++;
+		// balle et paddle en position d'origine
+		this.reset();
 	}
 	
 	if(this.balleGame.getHaut() < 0 || this.balleGame.getBas() > this.canvas.height){
@@ -144,7 +176,11 @@ const leJeu = new Game(canvas);
 
 canvas.addEventListener('mousemove', event => {
 	leJeu.joueurs[0].position.y = event.offsetY;
-})
+});
+
+canvas.addEventListener('click', event => {
+	leJeu.demarrerGame();
+});
 
 
 
