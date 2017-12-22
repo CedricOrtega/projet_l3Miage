@@ -100,32 +100,49 @@ class Game {
 			&& joueur.getHaut() < balle.getBas() && joueur.getBas() > balle.getHaut()){
 				balle.vitesse.x = -balle.vitesse.x;
 				// Ici est géré la vitesse du jeu
-				balle.vitesse.vitesseProgressive *= 1.05;
+				balle.vitesse.vitesseProgressive *= 1.1;
 				soundRaquette.play();
 			}
 	}
 	
 	
 	dessinerTerrain(){
+		// bonne pratique: sauver au début le contexte 
+		this.context.save();
+		
 		// mise en place du terrain de jeu
 		this.context.fillStyle = '#33919E';
 		this.context.fillRect(0,0,this.canvas.width,this.canvas.height);
 		
 		this.dessinerRectangle(this.balleGame);
 		this.joueurs.forEach(joueur => this.dessinerRectangle(joueur));
+		
+		// on restaure le contexte à la fin
+		this.context.restore();
 	}
 	
 	dessinerScore(){
-		this.context.font = "10px Arial";
-		this.context.fillText(this.joueurs[0].score,10,10);
-		this.context.fillText(this.joueurs[1].score,30,10);
+		// bonne pratique: sauver au début le contexte 
+		this.context.save();
+		
+		this.context.font = "40px Arial";
+		this.context.fillText(this.joueurs[0].score,206,40);
+		this.context.fillText(this.joueurs[1].score,522,40);
+		
+		// on restaure le contexte à la fin
+		this.context.restore();
 	}
 	
 	dessinerRectangle(laBalle){
+		// bonne pratique: sauver au début le contexte 
+		this.context.save();
+		
 		// creation de la balle
 		this.context.fillStyle = '#e50000';
 		this.context.fillRect(laBalle.getGauche(),laBalle.getHaut(),laBalle.taille.x,laBalle.taille.y);
 	
+		// on restaure le contexte à la fin
+		this.context.restore();
 	}
 	
 	//fonction pour demarrer jeu
@@ -194,7 +211,8 @@ const soundGoal = new Audio("goalaso.mp3");
 
 
 canvas.addEventListener('mousemove', event => {
-	leJeu.joueurs[0].position.y = event.offsetY;
+	const scale = event.offsetY / event.target.getBoundingClientRect().height;
+	leJeu.joueurs[0].position.y = canvas.height*scale;
 });
 
 canvas.addEventListener('click', event => {
