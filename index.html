@@ -3,7 +3,32 @@
 	<title> Projet L3 Miage </title>
 </head>
 <body>
+
+	  <label>
+	Couleur de votre paddle : 
+	<input type="color" value="#fff7cc" onchange="changeTete(this.value, bonhomme1);" >
+</label>
+<br>
+    <label>
+	Couleur paddle de l'IA : 
+	<input type="color" value="#fff7cc" onchange="changeTete(this.value, bonhomme2);" >
+</label>
+<br>
+   <label>
+	Couleur du terrain : 
+	<input type="color" value="#fff7cc" onchange="changeTete(this.value, bonhomme2);" >
+</label>
+<br>
+  <label>
+	Difficulte : 
+	1 <input type="range" value=3 min=1 max=5 oninput="changeVitesseLeverBras(this.value, bonhomme1)"> 5
+</label>
+<br>	
+
 	<canvas  id="gameCanvas" width="750" height="450" />
 	<script src="game.js"></script>
+	
+	
+
 </body>
 </html>
