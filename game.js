@@ -111,7 +111,7 @@ class Game {
 		this.context.save();
 		
 		// mise en place du terrain de jeu
-		this.context.fillStyle = '#33919E';
+		this.context.fillStyle = couleurTerrain;
 		this.context.fillRect(0,0,this.canvas.width,this.canvas.height);
 		
 		this.dessinerRectangle(this.balleGame);
@@ -138,7 +138,7 @@ class Game {
 		this.context.save();
 		
 		// creation de la balle
-		this.context.fillStyle = '#e50000';
+		this.context.fillStyle = couleurRectangle;
 		this.context.fillRect(laBalle.getGauche(),laBalle.getHaut(),laBalle.taille.x,laBalle.taille.y);
 	
 		// on restaure le contexte à la fin
@@ -211,10 +211,24 @@ const leJeu = new Game(canvas);
 const soundRaquette = new Audio("Pouloulou.mp3");
 const soundGoal = new Audio("goalaso.mp3");
 let difficulte = 3;
+let couleurTerrain = '#33919E';
+let couleurRectangle = '#e50000';
 
 	function changerDifficulte(laDifficulte) {
 
     difficulte = laDifficulte;
+
+	}
+	
+	function changeCouleurTerrain(laCouleurTerrain) {
+
+    couleurTerrain = laCouleurTerrain;
+
+	}
+	
+	function changeCouleurRectangle(laCouleurRectangles) {
+
+    couleurRectangle = laCouleurRectangles;
 
 	}
 
