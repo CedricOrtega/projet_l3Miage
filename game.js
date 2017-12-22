@@ -66,6 +66,10 @@ class Game {
 		this.canvas = canvas;
 		this.context = canvas.getContext("2d"); // contexte en 2d
 		
+		this.difficulte = 3;
+		this.couleurTerrain = '#33919E';
+		this.couleurRectangle = '#e50000';
+		
 		this.balleGame = new Balle();
 		console.log(this.balleGame); // balleGame est bien un objet heritant de rectangle
 				
@@ -111,7 +115,7 @@ class Game {
 		this.context.save();
 		
 		// mise en place du terrain de jeu
-		this.context.fillStyle = couleurTerrain;
+		this.context.fillStyle = this.couleurTerrain;
 		this.context.fillRect(0,0,this.canvas.width,this.canvas.height);
 		
 		this.dessinerRectangle(this.balleGame);
@@ -138,7 +142,7 @@ class Game {
 		this.context.save();
 		
 		// creation de la balle
-		this.context.fillStyle = couleurRectangle;
+		this.context.fillStyle = this.couleurRectangle;
 		this.context.fillRect(laBalle.getGauche(),laBalle.getHaut(),laBalle.taille.x,laBalle.taille.y);
 	
 		// on restaure le contexte à la fin
@@ -148,8 +152,8 @@ class Game {
 	//fonction pour demarrer jeu
 	// URGENT A FAIRE DIFFICULTE JEU BONUS POSSIBLE POUR INPUT
 	demarrerGame(){
-		this.balleGame.vitesse.x = 100*difficulte;
-		this.balleGame.vitesse.y = 100*difficulte;
+		this.balleGame.vitesse.x = 100*this.difficulte;
+		this.balleGame.vitesse.y = 100*this.difficulte;
 		
 		//this.balleGame.vitesse.obtenirVitesseProgressive = 200;
 	}
@@ -210,25 +214,22 @@ const canvas  = document.getElementById("gameCanvas"); // acces au canvas
 const leJeu = new Game(canvas);
 const soundRaquette = new Audio("Pouloulou.mp3");
 const soundGoal = new Audio("goalaso.mp3");
-let difficulte = 3;
-let couleurTerrain = '#33919E';
-let couleurRectangle = '#e50000';
 
 	function changerDifficulte(laDifficulte) {
 
-    difficulte = laDifficulte;
+    leJeu.difficulte = laDifficulte;
 
 	}
 	
 	function changeCouleurTerrain(laCouleurTerrain) {
 
-    couleurTerrain = laCouleurTerrain;
+    leJeu.couleurTerrain = laCouleurTerrain;
 
 	}
 	
 	function changeCouleurRectangle(laCouleurRectangles) {
 
-    couleurRectangle = laCouleurRectangles;
+    leJeu.couleurRectangle = laCouleurRectangles;
 
 	}
 
