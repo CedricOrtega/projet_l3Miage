@@ -95,12 +95,13 @@ class Game {
 		this.reset();
 	}
 	
-	colisionPaddle_Balle(joueur, balle){
+	colisionPaddle_Balle(joueur, balle, soundRaquette){
 		if(joueur.getGauche() < balle.getDroite() && joueur.getDroite() > balle.getGauche()
 			&& joueur.getHaut() < balle.getBas() && joueur.getBas() > balle.getHaut()){
 				balle.vitesse.x = -balle.vitesse.x;
 				// Ici est géré la vitesse du jeu
 				balle.vitesse.vitesseProgressive *= 1.05;
+				soundRaquette.play();
 			}
 	}
 	
@@ -139,7 +140,7 @@ class Game {
 	// fonction apres score marque mettre balle au milieu et paddle
 	reset(){
 		// mettre la balle au millieu de terrain
-
+		
 		this.balleGame.position.x = (this.canvas.width/2);
 		this.balleGame.position.y = (this.canvas.height/2);
 
@@ -164,6 +165,8 @@ class Game {
 		const joueurCible = this.balleGame.vitesse.x < 0 | 0;
 		// on lui rajoute 1 point
 		this.joueurs[joueurCible].score++;
+		
+		soundGoal.play();
 		// balle et paddle en position d'origine
 		this.reset();
 	}
@@ -173,10 +176,10 @@ class Game {
 	}
 	
 	
-	// le joueur 2 est l'ordinateur, ici la raquette de l'rodi suit la balle
+	// le joueur 2 est l'ordinateur, ici la raquette de l'ordi suit la balle
 	this.joueurs[1].position.y = this.balleGame.position.y;
 	
-	this.joueurs.forEach(joueur => this.colisionPaddle_Balle(joueur,this.balleGame));
+	this.joueurs.forEach(joueur => this.colisionPaddle_Balle(joueur,this.balleGame, soundRaquette));
 	
 	this.dessinerTerrain();
 	this.dessinerScore();
@@ -186,7 +189,8 @@ class Game {
 
 const canvas  = document.getElementById("gameCanvas"); // acces au canvas
 const leJeu = new Game(canvas);
-
+const soundRaquette = new Audio("Pouloulou.mp3");
+const soundGoal = new Audio("goalaso.mp3");
 
 
 canvas.addEventListener('mousemove', event => {
