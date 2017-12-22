@@ -83,9 +83,14 @@ class Game {
 				this.animerBalle((milliseconde-ancienPosition)/1000)
 			}
 			ancienPosition = milliseconde;
+			this.context.font = "10px Arial";
+			this.context.fillText("5hfkdfhfdhkjdfbkjfdhfdkjbfdsjbgfdjhdfsjhfdshj",10,10);
 			requestAnimationFrame(rappeler);
 		};
+		
 		rappeler();
+		
+
 		
 		// mettre balle milieu terrain la 1ere fois
 		this.reset();
@@ -98,6 +103,10 @@ class Game {
 				// Ici est géré la vitesse du jeu
 				balle.vitesse.vitesseProgressive *= 1.05;
 			}
+	}
+	
+	dessinerScore(){
+		
 	}
 	
 	dessinerTerrain(){
@@ -145,6 +154,8 @@ class Game {
 	this.balleGame.position.x += this.balleGame.vitesse.x * temps; // balle va a droite
 	this.balleGame.position.y += this.balleGame.vitesse.y * temps; // balle va en bas
 	
+
+	
 	// COLISION
 	if(this.balleGame.getGauche() < 0 || this.balleGame.getDroite() > this.canvas.width){
 		// on cible le joueur qui a marque 1 point
@@ -169,10 +180,11 @@ class Game {
 	
 }
 }
-	
 
 const canvas  = document.getElementById("gameCanvas"); // acces au canvas
 const leJeu = new Game(canvas);
+
+
 
 canvas.addEventListener('mousemove', event => {
 	leJeu.joueurs[0].position.y = event.offsetY;
