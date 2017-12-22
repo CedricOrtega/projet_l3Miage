@@ -83,8 +83,7 @@ class Game {
 				this.animerBalle((milliseconde-ancienPosition)/1000)
 			}
 			ancienPosition = milliseconde;
-			this.context.font = "10px Arial";
-			this.context.fillText("5hfkdfhfdhkjdfbkjfdhfdkjbfdsjbgfdjhdfsjhfdshj",10,10);
+
 			requestAnimationFrame(rappeler);
 		};
 		
@@ -105,17 +104,20 @@ class Game {
 			}
 	}
 	
-	dessinerScore(){
-		
-	}
 	
 	dessinerTerrain(){
 		// mise en place du terrain de jeu
 		this.context.fillStyle = '#33919E';
 		this.context.fillRect(0,0,this.canvas.width,this.canvas.height);
-
+		
 		this.dessinerRectangle(this.balleGame);
 		this.joueurs.forEach(joueur => this.dessinerRectangle(joueur));
+	}
+	
+	dessinerScore(){
+		this.context.font = "10px Arial";
+		this.context.fillText(this.joueurs[0].score,10,10);
+		this.context.fillText(this.joueurs[1].score,30,10);
 	}
 	
 	dessinerRectangle(laBalle){
@@ -177,6 +179,7 @@ class Game {
 	this.joueurs.forEach(joueur => this.colisionPaddle_Balle(joueur,this.balleGame));
 	
 	this.dessinerTerrain();
+	this.dessinerScore();
 	
 }
 }
